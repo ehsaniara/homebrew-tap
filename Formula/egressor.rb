@@ -5,13 +5,13 @@
 class Egressor < Formula
   desc "Local-first egress monitoring and control for developer tools"
   homepage "https://github.com/ehsaniara/egressor"
-  version "0.0.5"
+  version "0.0.6"
   license "MIT"
   depends_on :macos
 
   if Hardware::CPU.intel?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.5/egressor_0.0.5_darwin_amd64.tar.gz"
-    sha256 "d05d933adfde496b5c7b8278f0b5d998e54028269e359d30dad358d6f607c19b"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.6/egressor_0.0.6_darwin_amd64.tar.gz"
+    sha256 "a4a984e008332580bc86e25dc149a100fb679e6fb6bf2e5a040c2527efd9a718"
 
     define_method(:install) do
       bin.install "egressor"
@@ -19,8 +19,8 @@ class Egressor < Formula
     end
   end
   if Hardware::CPU.arm?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.5/egressor_0.0.5_darwin_arm64.tar.gz"
-    sha256 "f5e026b3ae47a7591acb1c5dfd6339f2ccc292d9a40dea435ced1f056c890809"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.6/egressor_0.0.6_darwin_arm64.tar.gz"
+    sha256 "64e5d36beea3ac0e3063797451fa5584e8fa6edc286707b1888a6ea5d6230107"
 
     define_method(:install) do
       bin.install "egressor"
@@ -28,14 +28,13 @@ class Egressor < Formula
     end
   end
 
-  def post_install
-    egressor_dir = Pathname.new("#{Dir.home}/.egressor")
-    egressor_dir.mkpath
-    config_dest = egressor_dir/"config.yaml"
-    unless config_dest.exist?
-      cp pkgshare/"config.yaml", config_dest
-      ohai "Config installed to #{config_dest}"
-    end
+  def caveats
+    <<~EOS
+      Egressor will auto-create ~/.egressor/config.yaml on first run.
+      To set up TLS interception, run:
+        egressor --generate-ca
+        sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ~/.egressor/ca.pem
+    EOS
   end
 
   service do
