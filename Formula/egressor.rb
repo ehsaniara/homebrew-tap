@@ -5,33 +5,41 @@
 class Egressor < Formula
   desc "Local-first egress monitoring and control for developer tools"
   homepage "https://github.com/ehsaniara/egressor"
-  version "0.0.3"
+  version "0.0.4"
   license "MIT"
   depends_on :macos
 
   if Hardware::CPU.intel?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.3/egressor_0.0.3_darwin_amd64.tar.gz"
-    sha256 "e8b258fa39638968e093e075ce42d4f83dbf76ea9b7aa2fc0b9df5fe3384c54a"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.4/egressor_0.0.4_darwin_amd64.tar.gz"
+    sha256 "6dd92c16b5fc792b7adb9ddb4b3a5fe7d9e682f3ded954ebf8551a3f8261e82b"
 
     define_method(:install) do
       bin.install "egressor"
-      (etc/"egressor").mkpath
-      etc.install "config.yaml" => "egressor/config.yaml" unless (etc/"egressor/config.yaml").exist?
+      pkgshare.install "config.yaml"
     end
   end
   if Hardware::CPU.arm?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.3/egressor_0.0.3_darwin_arm64.tar.gz"
-    sha256 "6f0c76ea370b56a1cebd98cf61cc9c56cc119c3cad0f1edbf2219149b9e92f3b"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.4/egressor_0.0.4_darwin_arm64.tar.gz"
+    sha256 "5e98791dbfe0c2a627d43a32ce27859aae95f7b59ecaaa54d5205cced121d3ad"
 
     define_method(:install) do
       bin.install "egressor"
-      (etc/"egressor").mkpath
-      etc.install "config.yaml" => "egressor/config.yaml" unless (etc/"egressor/config.yaml").exist?
+      pkgshare.install "config.yaml"
+    end
+  end
+
+  def post_install
+    egressor_dir = Pathname.new("#{ENV["HOME"]}/.egressor")
+    egressor_dir.mkpath
+    config_dest = egressor_dir/"config.yaml"
+    unless config_dest.exist?
+      cp pkgshare/"config.yaml", config_dest
+      ohai "Config installed to #{config_dest}"
     end
   end
 
   service do
-    run [opt_bin/"egressor", "--headless", "--config", etc/"egressor/config.yaml"]
+    run [opt_bin/"egressor", "--headless"]
     keep_alive true
     log_path var/"log/egressor/egressor.log"
     error_log_path var/"log/egressor/egressor-error.log"
