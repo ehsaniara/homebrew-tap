@@ -5,26 +5,28 @@
 class Egressor < Formula
   desc "Local-first egress monitoring and control for developer tools"
   homepage "https://github.com/ehsaniara/egressor"
-  version "0.0.1"
+  version "0.0.2"
   license "MIT"
   depends_on :macos
 
   if Hardware::CPU.intel?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.1/egressor_0.0.1_darwin_amd64.tar.gz"
-    sha256 "6dbcb88d8b8e9b1912e1f582e93eecafc79b7ab9efac97c46110c679cc436a5e"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.2/egressor_0.0.2_darwin_amd64.tar.gz"
+    sha256 "2acc2ce1b8632b99647819ca7674a980773daa16aac2d76008cfc3b49439664a"
 
     define_method(:install) do
       bin.install "egressor"
-      etc.install "config.yaml" => "egressor/config.yaml"
+      (etc/"egressor").mkpath
+      etc.install "config.yaml" => "egressor/config.yaml" unless (etc/"egressor/config.yaml").exist?
     end
   end
   if Hardware::CPU.arm?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.1/egressor_0.0.1_darwin_arm64.tar.gz"
-    sha256 "732c0dcf190decabef3cef18ad80d6baeaebd72e8f3e26de9abdf06ed5dbdfef"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.2/egressor_0.0.2_darwin_arm64.tar.gz"
+    sha256 "2c4e077c802b3b219f29592d6ca4e5365d152cbb22caeee0eea657c039bc850a"
 
     define_method(:install) do
       bin.install "egressor"
-      etc.install "config.yaml" => "egressor/config.yaml"
+      (etc/"egressor").mkpath
+      etc.install "config.yaml" => "egressor/config.yaml" unless (etc/"egressor/config.yaml").exist?
     end
   end
 
