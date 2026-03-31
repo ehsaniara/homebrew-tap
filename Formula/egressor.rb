@@ -5,13 +5,13 @@
 class Egressor < Formula
   desc "Local-first egress monitoring and control for developer tools"
   homepage "https://github.com/ehsaniara/egressor"
-  version "0.0.4"
+  version "0.0.5"
   license "MIT"
   depends_on :macos
 
   if Hardware::CPU.intel?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.4/egressor_0.0.4_darwin_amd64.tar.gz"
-    sha256 "6dd92c16b5fc792b7adb9ddb4b3a5fe7d9e682f3ded954ebf8551a3f8261e82b"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.5/egressor_0.0.5_darwin_amd64.tar.gz"
+    sha256 "d05d933adfde496b5c7b8278f0b5d998e54028269e359d30dad358d6f607c19b"
 
     define_method(:install) do
       bin.install "egressor"
@@ -19,8 +19,8 @@ class Egressor < Formula
     end
   end
   if Hardware::CPU.arm?
-    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.4/egressor_0.0.4_darwin_arm64.tar.gz"
-    sha256 "5e98791dbfe0c2a627d43a32ce27859aae95f7b59ecaaa54d5205cced121d3ad"
+    url "https://github.com/ehsaniara/egressor/releases/download/v0.0.5/egressor_0.0.5_darwin_arm64.tar.gz"
+    sha256 "f5e026b3ae47a7591acb1c5dfd6339f2ccc292d9a40dea435ced1f056c890809"
 
     define_method(:install) do
       bin.install "egressor"
@@ -29,7 +29,7 @@ class Egressor < Formula
   end
 
   def post_install
-    egressor_dir = Pathname.new("#{ENV["HOME"]}/.egressor")
+    egressor_dir = Pathname.new("#{Dir.home}/.egressor")
     egressor_dir.mkpath
     config_dest = egressor_dir/"config.yaml"
     unless config_dest.exist?
