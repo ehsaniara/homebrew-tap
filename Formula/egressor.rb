@@ -11,7 +11,7 @@ class Egressor < Formula
 
   if Hardware::CPU.intel?
     url "https://github.com/ehsaniara/egressor/releases/download/v0.0.3/egressor_0.0.3_darwin_amd64.tar.gz"
-    sha256 "ceb54719f975891e554a4f80724048daff80d261849256a34ff3a7c7f910158b"
+    sha256 "e8b258fa39638968e093e075ce42d4f83dbf76ea9b7aa2fc0b9df5fe3384c54a"
 
     define_method(:install) do
       bin.install "egressor"
@@ -21,7 +21,7 @@ class Egressor < Formula
   end
   if Hardware::CPU.arm?
     url "https://github.com/ehsaniara/egressor/releases/download/v0.0.3/egressor_0.0.3_darwin_arm64.tar.gz"
-    sha256 "9e9eac65c85bf6d19aa12f1163863e1d7c49465babee08bb628a7241ffe12e09"
+    sha256 "6f0c76ea370b56a1cebd98cf61cc9c56cc119c3cad0f1edbf2219149b9e92f3b"
 
     define_method(:install) do
       bin.install "egressor"
